@@ -1,9 +1,24 @@
 import { Tabs } from "expo-router";
 import { Feather, Ionicons } from "@expo/vector-icons";
+import { COLORS } from "@/constants";
 
 export default function _layout() {
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: COLORS.primary,
+        tabBarInactiveTintColor: "#CDCDE0",
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundClip: "#fff",
+          borderTopWidth: 1,
+          borderColor: "#F0F0F0",
+          height: 56,
+          paddingTop: 8,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
