@@ -1,10 +1,172 @@
+import { BANNERS } from "@/assets/assets";
+import CategorieItem from "@/components/CategorieItem";
 import Header from "@/components/Header";
+import { CATEGORIES } from "@/constants";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import {
+  Dimensions,
+  Image,
+  ScrollView,
+  View,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+const { width } = Dimensions.get("window");
+
 export default function Home() {
+  const router = useRouter();
+  const [activeBannerIndex, setActiveBannerIndex] = useState(0);
+  const categories = [{ id: "all", name: "All", icon: "grid" }, ...CATEGORIES];
   return (
-    <SafeAreaView className="flex-1" edges={["top"]}>
+    <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
       <Header title="Forever" showMenu showCart showLogo />
+
+      <ScrollView
+        style={{ flex: 1, paddingHorizontal: 16 }}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Banner Slider */}
+        <ScrollView
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          onScroll={(e) => {
+            const slide = Math.ceil(
+              e.nativeEvent.contentOffset.x /
+                e.nativeEvent.layoutMeasurement.width,
+            );
+            if (slide !== activeBannerIndex) {
+              setActiveBannerIndex(slide);
+            }
+          }}
+        >
+          {/* Show all banners stacked */}
+          {BANNERS.map((banner) => (
+            <View
+              key={banner.id}
+              style={{
+                width: width - 32,
+                height: 180,
+                borderRadius: 16,
+                overflow: "hidden",
+                marginBottom: 4,
+                position: "relative",
+              }}
+            >
+              <Image
+                source={{ uri: banner.image }}
+                style={{ width: "100%", height: "100%" }}
+                resizeMode="cover"
+              />
+
+              {/* Overlay Text */}
+              <View
+                style={{
+                  position: "absolute",
+                  bottom: 16,
+                  left: 16,
+                  zIndex: 10,
+                }}
+              >
+                <Text
+                  style={{ color: "white", fontSize: 20, fontWeight: "bold" }}
+                >
+                  {banner.title}
+                </Text>
+                <Text
+                  style={{ color: "white", fontSize: 14, fontWeight: "500" }}
+                >
+                  {banner.subtitle}
+                </Text>
+                <TouchableOpacity
+                  style={{
+                    marginTop: 8,
+                    backgroundColor: "white",
+                    paddingHorizontal: 12,
+                    paddingVertical: 6,
+                    borderRadius: 20,
+                    alignSelf: "flex-start",
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: "#000000",
+                      fontWeight: "bold",
+                      fontSize: 12,
+                    }}
+                  >
+                    Get Now
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: 0,
+                  backgroundColor: "rgba(0,0,0,0.3)",
+                }}
+              />
+            </View>
+          ))}
+        </ScrollView>
+        {/* Pagination Dots */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            marginTop: 12,
+            marginBottom: 12,
+            gap: 6,
+          }}
+        >
+          {BANNERS.map((_, index) => (
+            <View
+              key={index}
+              style={{
+                height: 8,
+                borderRadius: 4,
+                width: index === activeBannerIndex ? 24 : 8,
+                backgroundColor:
+                  index === activeBannerIndex ? "#000000" : "#D1D5DB",
+              }}
+            />
+          ))}
+        </View>
+
+        {/* Categories */}
+        <View style={{ flexDirection: "column", gap: 10, marginBottom: 16 }}>
+          <Text style={{ fontSize: 18, fontWeight: "600" }}>Categories</Text>
+
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            {categories.map((cat: any) => (
+              <CategorieItem
+                key={cat.id}
+                item={cat}
+                isSelected={false}
+                onPress={() => {
+                  router.push({
+                    pathname: "/(tabs)/shop",
+                    params: { category: cat.id === "all" ? "" : cat.name },
+                  });
+                }}
+              />
+            ))}
+          </ScrollView>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
