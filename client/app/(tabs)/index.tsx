@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import ProductCard from "@/components/ProductCard";
 import { CATEGORIES } from "@/constants";
 import { Product } from "@/constants/types";
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -220,6 +221,64 @@ export default function Home() {
               ))}
             </View>
           )}
+        </View>
+
+        {/* News Letter */}
+        <View
+          style={{
+            marginTop: 40,
+            marginBottom: 20,
+            padding: 20,
+            backgroundColor: "#F9FAFB",
+            borderRadius: 12,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {/* Headline */}
+          <Text
+            style={{
+              fontSize: 24,
+              fontWeight: "700",
+              textAlign: "center",
+              marginBottom: 8,
+            }}
+          >
+            Join the Revolution
+          </Text>
+
+          {/* Subtext */}
+          <Text
+            style={{
+              fontSize: 14,
+              color: "#4B5563",
+              textAlign: "center",
+              marginBottom: 16,
+            }}
+          >
+            Subscribe to our newsletter and get 10% off your first purchase.
+          </Text>
+
+          {/* Button */}
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#000",
+              paddingVertical: 12,
+              paddingHorizontal: 24,
+              borderRadius: 8,
+            }}
+          >
+            <Text
+              style={{
+                color: "#fff",
+                fontSize: 16,
+                fontWeight: "600",
+                textAlign: "center",
+              }}
+            >
+              Subscribe Now
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>

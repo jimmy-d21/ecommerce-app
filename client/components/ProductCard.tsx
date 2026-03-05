@@ -68,6 +68,37 @@ export default function ProductCard({ product }: ProductCardProps) {
             </View>
           )}
         </View>
+
+        {/* Product info */}
+        <View style={{ padding: 8 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 2,
+              marginBottom: 2,
+            }}
+          >
+            <Ionicons name="star" size={14} color={"#FFD700"} />
+            <Text style={{ color: "#666666", fontSize: 14 }}>4.6</Text>
+          </View>
+          <Text
+            style={{
+              color: "#111111",
+              fontWeight: "500",
+              fontSize: 12,
+              marginBottom: 3,
+            }}
+            numberOfLines={1}
+          >
+            {product.description}
+          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
+            <Text style={{ color: "#111111", fontSize: 12, fontWeight: "600" }}>
+              ${product.price.toFixed(2)}
+            </Text>
+          </View>
+        </View>
       </TouchableOpacity>
     </Link>
   );
