@@ -1,0 +1,74 @@
+import React from "react";
+import { ProductCardProps } from "@/constants/types";
+import { Link } from "expo-router";
+import { TouchableOpacity, View, Image, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { COLORS } from "@/constants";
+
+export default function ProductCard({ product }: ProductCardProps) {
+  const isLiked = false;
+
+  return (
+    <Link href={`/product/${product._id}`} asChild>
+      <TouchableOpacity
+        style={{
+          width: "48%",
+          marginBottom: 12,
+          backgroundColor: "#fff",
+          borderRadius: 10,
+          overflow: "hidden",
+        }}
+      >
+        <View style={{ height: 160, width: "100%" }}>
+          <Image
+            source={{ uri: product.images[0] }}
+            style={{ width: "100%", height: "100%" }}
+            resizeMode="cover"
+          />
+
+          {/* Heart Icon (Top Right) */}
+          <TouchableOpacity
+            onPress={(e) => e.stopPropagation()}
+            style={{
+              position: "absolute",
+              top: 5,
+              right: 8,
+              backgroundColor: "#fff",
+              borderRadius: 50,
+              padding: 6,
+              elevation: 3,
+              shadowColor: "#000",
+              shadowOpacity: 0.2,
+              shadowRadius: 2,
+            }}
+          >
+            <Ionicons
+              name={isLiked ? "heart" : "heart-outline"}
+              size={20}
+              color={isLiked ? COLORS.accent : COLORS.primary}
+            />
+          </TouchableOpacity>
+
+          {/* Featured Badge (Bottom Left) */}
+          {product.isFeatured && (
+            <View
+              style={{
+                position: "absolute",
+                top: 8,
+                left: 8,
+                paddingHorizontal: 8,
+                paddingVertical: 4,
+                borderRadius: 4,
+                backgroundColor: "#000",
+              }}
+            >
+              <Text style={{ fontSize: 12, fontWeight: "600", color: "#fff" }}>
+                Featured
+              </Text>
+            </View>
+          )}
+        </View>
+      </TouchableOpacity>
+    </Link>
+  );
+}

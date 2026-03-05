@@ -1,9 +1,11 @@
-import { BANNERS } from "@/assets/assets";
+import { BANNERS, dummyProducts } from "@/assets/assets";
 import CategorieItem from "@/components/CategorieItem";
 import Header from "@/components/Header";
+import ProductCard from "@/components/ProductCard";
 import { CATEGORIES } from "@/constants";
+import { Product } from "@/constants/types";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dimensions,
   Image,
@@ -11,6 +13,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -18,8 +21,22 @@ const { width } = Dimensions.get("window");
 
 export default function Home() {
   const router = useRouter();
+
   const [activeBannerIndex, setActiveBannerIndex] = useState(0);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
   const categories = [{ id: "all", name: "All", icon: "grid" }, ...CATEGORIES];
+
+  const fetchProducts = async () => {
+    setProducts(dummyProducts);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
       <Header title="Forever" showMenu showCart showLogo />
@@ -165,6 +182,44 @@ export default function Home() {
               />
             ))}
           </ScrollView>
+        </View>
+
+        {/* Popular Products */}
+        <View
+          style={{
+            flexDirection: "column",
+            marginTop: 10,
+            gap: 10,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: 5,
+            }}
+          >
+            <Text style={{ fontSize: 18, fontWeight: "600" }}>Popular</Text>
+            <TouchableOpacity onPress={() => router.push(`/(tabs)/shop`)}>
+              <Text style={{ color: "gray" }}>See All</Text>
+            </TouchableOpacity>
+          </View>
+          {loading ? (
+            <ActivityIndicator size={"large"} />
+          ) : (
+            <View
+              style={{
+                flexDirection: "row",
+                flexWrap: "wrap",
+                justifyContent: "space-between",
+              }}
+            >
+              {products.slice(0, 8).map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
