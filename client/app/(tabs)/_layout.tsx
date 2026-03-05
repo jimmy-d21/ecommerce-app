@@ -1,21 +1,26 @@
 import { Tabs } from "expo-router";
 import { Feather, Ionicons } from "@expo/vector-icons";
-import { COLORS } from "@/constants";
 
-export default function _layout() {
+export default function Layout() {
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: COLORS.primary,
+        tabBarActiveTintColor: "#000",
         tabBarInactiveTintColor: "#CDCDE0",
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundClip: "#fff",
+          backgroundColor: "#fff",
           borderTopWidth: 1,
           borderColor: "#F0F0F0",
-          height: 56,
+          height: 60,
+          paddingBottom: 8,
           paddingTop: 8,
+        },
+        tabBarItemStyle: {
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
         },
       }}
     >
@@ -25,8 +30,8 @@ export default function _layout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "home" : "home-outline"}
-              color={color}
               size={26}
+              color={color}
             />
           ),
         }}
@@ -34,12 +39,8 @@ export default function _layout() {
       <Tabs.Screen
         name="cart"
         options={{
-          tabBarIcon: ({ color, focused }) => (
-            <Feather
-              name={focused ? "shopping-cart" : "shopping-cart"}
-              color={color}
-              size={26}
-            />
+          tabBarIcon: ({ color }) => (
+            <Feather name="shopping-cart" size={26} color={color} />
           ),
         }}
       />
@@ -49,8 +50,8 @@ export default function _layout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "heart" : "heart-outline"}
-              color={color}
               size={26}
+              color={color}
             />
           ),
         }}
@@ -61,8 +62,8 @@ export default function _layout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "person" : "person-outline"}
-              color={color}
               size={26}
+              color={color}
             />
           ),
         }}

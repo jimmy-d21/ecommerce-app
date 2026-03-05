@@ -4,7 +4,6 @@ import Header from "@/components/Header";
 import ProductCard from "@/components/ProductCard";
 import { CATEGORIES } from "@/constants";
 import { Product } from "@/constants/types";
-import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {

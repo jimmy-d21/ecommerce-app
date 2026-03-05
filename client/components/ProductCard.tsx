@@ -4,9 +4,11 @@ import { Link } from "expo-router";
 import { TouchableOpacity, View, Image, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/constants";
+import { useWishList } from "@/context/WishlistContext";
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const isLiked = false;
+  const { toggleWishlist, isInWishlist } = useWishList();
+  const isLiked = isInWishlist(product._id);
 
   return (
     <Link href={`/product/${product._id}`} asChild>
@@ -28,7 +30,10 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           {/* Heart Icon (Top Right) */}
           <TouchableOpacity
-            onPress={(e) => e.stopPropagation()}
+            onPress={(e) => {
+              e.stopPropagation();
+              toggleWishlist(product);
+            }}
             style={{
               position: "absolute",
               top: 5,
