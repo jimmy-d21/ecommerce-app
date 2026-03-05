@@ -56,7 +56,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(false);
   };
 
-  const addToCart = async (product: Product, size: string) => {};
+  const addToCart = async (product: Product, size: string) => {
+    console.log(product.name, size);
+  };
 
   const removeFromCart = async (productId: string, size: string) => {};
 
