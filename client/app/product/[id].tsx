@@ -16,6 +16,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "@/constants";
 import { ScrollView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
+import Toast from "react-native-toast-message";
 
 const { width } = Dimensions.get("window");
 
@@ -26,7 +27,7 @@ export default function ProductDetails() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const { addToCart, cartItems } = useCart();
+  const { addToCart, cartItems, itemCount } = useCart();
   const { toggleWishlist, isInWishlist } = useWishList();
 
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -74,6 +75,24 @@ export default function ProductDetails() {
   }
 
   const isLiked = isInWishlist(product._id);
+
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      Toast.show({
+        type: "error",
+        text1: "No Size Selected",
+        text2: "Please select a size",
+      });
+      return;
+    }
+    addToCart(product, selectedSize);
+    setSelectedSize(null);
+    Toast.show({
+      type: "success",
+      text1: "Add item successfully!",
+      text2: "Thank you for buying our product.",
+    });
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -257,9 +276,9 @@ export default function ProductDetails() {
             >
               <Ionicons name="star" color={"#FFD700"} size={14} />
               <Text style={{ fontWeight: "600" }}>
-                {product.ratings.average / product.ratings.count || 0}{" "}
+                4.6{" "}
                 <Text style={{ fontWeight: "300", color: "#1f2937" }}>
-                  ({product.ratings.count})
+                  (85)
                 </Text>
               </Text>
             </View>
@@ -360,12 +379,7 @@ export default function ProductDetails() {
           }}
         >
           <TouchableOpacity
-            onPress={() => {
-              if (selectedSize) {
-                addToCart(product, selectedSize);
-                setSelectedSize(null);
-              }
-            }}
+            onPress={handleAddToCart}
             style={{
               backgroundColor: "#000000",
               paddingVertical: 15,
@@ -397,7 +411,7 @@ export default function ProductDetails() {
           <TouchableOpacity onPress={() => router.push("/(tabs)/cart")}>
             <View style={{ width: 28, height: 28 }}>
               <Ionicons name="cart-outline" size={28} color={COLORS.primary} />
-              {cartItems.length > 0 && (
+              {itemCount > 0 && (
                 <View
                   style={{
                     position: "absolute",
@@ -415,7 +429,7 @@ export default function ProductDetails() {
                   <Text
                     style={{ color: "white", fontSize: 10, fontWeight: "bold" }}
                   >
-                    {cartItems.length}
+                    {itemCount}
                   </Text>
                 </View>
               )}
