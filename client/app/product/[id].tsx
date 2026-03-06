@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   Dimensions,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -14,7 +15,6 @@ import { useWishList } from "@/context/WishlistContext";
 import { dummyProducts } from "@/assets/assets";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "@/constants";
-import { ScrollView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
 
@@ -36,7 +36,8 @@ export default function ProductDetails() {
   const scrollRef = useRef<ScrollView>(null);
 
   const fetchProduct = async () => {
-    setProduct(dummyProducts.find((p) => p._id === id) as any);
+    const found = dummyProducts.find((p) => p._id === id);
+    setProduct(found ?? null);
     setLoading(false);
   };
 
@@ -53,6 +54,7 @@ export default function ProductDetails() {
           alignItems: "center",
           justifyContent: "center",
         }}
+        edges={["top", "bottom"]}
       >
         <ActivityIndicator size={"large"} color={COLORS.primary} />
       </SafeAreaView>
@@ -68,6 +70,7 @@ export default function ProductDetails() {
           alignItems: "center",
           justifyContent: "center",
         }}
+        edges={["top", "bottom"]}
       >
         <Text>Product not found</Text>
       </SafeAreaView>
@@ -95,12 +98,11 @@ export default function ProductDetails() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff" }}>
-      <ScrollView
-        contentContainerStyle={{
-          paddingBottom: 100,
-        }}
-      >
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "#fff" }}
+      edges={["top", "bottom"]}
+    >
+      <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
         {/* Image Carousel */}
         <View
           style={{
@@ -127,24 +129,21 @@ export default function ProductDetails() {
               <Image
                 key={index}
                 source={{ uri: img }}
-                style={{
-                  width: width,
-                  height: 450,
-                }}
+                style={{ width: width, height: 450 }}
                 resizeMode="cover"
               />
             ))}
           </ScrollView>
         </View>
 
-        {/* THUMBNAILS */}
+        {/* Thumbnails */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           style={{ marginTop: 10, paddingHorizontal: 15 }}
         >
           {product.images.length > 1 &&
-            product.images?.map((img, index) => (
+            product.images.map((img, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => {
@@ -167,6 +166,7 @@ export default function ProductDetails() {
               </TouchableOpacity>
             ))}
         </ScrollView>
+
         {/* Header Actions */}
         <View
           style={{
@@ -183,20 +183,16 @@ export default function ProductDetails() {
           <TouchableOpacity
             style={{
               padding: 10,
-              backgroundColor: "rgba(255, 255, 255, 0.8)",
-              borderRadius: "50%",
+              backgroundColor: "rgba(255,255,255,0.8)",
+              borderRadius: 50,
               alignItems: "center",
               justifyContent: "center",
             }}
+            onPress={() => router.back()}
           >
-            <Ionicons
-              name="arrow-back"
-              size={24}
-              onPress={() => router.back()}
-            />
+            <Ionicons name="arrow-back" size={24} />
           </TouchableOpacity>
 
-          {/* Heart Icon (Top Right) */}
           <TouchableOpacity
             onPress={(e) => {
               e.stopPropagation();
@@ -226,15 +222,13 @@ export default function ProductDetails() {
             style={{
               position: "absolute",
               top: 410,
-              left: 150,
+              left: (width - 24 * product.images.length) / 2,
               flexDirection: "row",
               justifyContent: "center",
-              marginTop: 12,
-              marginBottom: 12,
               gap: 6,
             }}
           >
-            {product.images?.map((_, index) => (
+            {product.images.map((_, index) => (
               <View
                 key={index}
                 style={{
@@ -242,7 +236,7 @@ export default function ProductDetails() {
                   borderRadius: 4,
                   width: index === activeImageIndex ? 24 : 8,
                   backgroundColor:
-                    index === activeImageIndex ? "#000000" : "#D1D5DB",
+                    index === activeImageIndex ? "#000" : "#D1D5DB",
                 }}
               />
             ))}
@@ -254,7 +248,6 @@ export default function ProductDetails() {
           {/* Title & Rating */}
           <View
             style={{
-              flex: 1,
               flexDirection: "row",
               alignItems: "flex-start",
               justifyContent: "space-between",
@@ -283,160 +276,141 @@ export default function ProductDetails() {
               </Text>
             </View>
           </View>
+
           {/* Price */}
           <Text style={{ marginTop: 5, fontWeight: "600", fontSize: 19 }}>
             ${product.price.toFixed(2)}
           </Text>
+
           {/* Size Options */}
           <View
-            style={{
-              flex: 1,
-              flexDirection: "column",
-              gap: 10,
-              paddingVertical: 20,
-            }}
+            style={{ flexDirection: "column", gap: 10, paddingVertical: 20 }}
           >
-            <Text style={{ color: "#000000", fontSize: 17, fontWeight: "800" }}>
+            <Text style={{ color: "#000", fontSize: 17, fontWeight: "800" }}>
               Size
             </Text>
-            <View
-              style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
-            >
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                {product.sizes?.map((size, index) => (
-                  <TouchableOpacity onPress={() => setSelectedSize(size)}>
-                    <View
-                      key={index}
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {product.sizes?.map((size, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => setSelectedSize(size)}
+                >
+                  <View
+                    style={{
+                      width: 50,
+                      height: 50,
+                      backgroundColor: selectedSize === size ? "#000" : "#fff",
+                      borderWidth: 1,
+                      borderColor: "#e5e7eb",
+                      borderRadius: 50,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginRight: 10,
+                    }}
+                  >
+                    <Text
                       style={{
-                        width: 50,
-                        height: 50,
-                        backgroundColor:
-                          selectedSize === size ? "#000000" : "#fff",
-                        borderWidth: 1,
-                        borderColor: "#e5e7eb",
-                        borderRadius: 50,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginRight: 10,
+                        color: selectedSize === size ? "#fff" : "#000",
+                        fontWeight: "600",
+                        fontSize: 14,
                       }}
                     >
-                      <Text
-                        style={{
-                          color: selectedSize === size ? "#fff" : "#000000",
-                          fontWeight: "600",
-                          fontSize: 14,
-                        }}
-                      >
-                        {size}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                ))}
-              </ScrollView>
-            </View>
+                      {size}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           </View>
+
           {/* Description */}
           <View
             style={{
-              flex: 1,
               flexDirection: "column",
               gap: 10,
               paddingVertical: 10,
               marginBottom: 20,
             }}
           >
-            <Text style={{ color: "#000000", fontSize: 17, fontWeight: "800" }}>
+            <Text style={{ color: "#000", fontSize: 17, fontWeight: "800" }}>
               Description
             </Text>
-            <Text
-              style={{
-                fontSize: 14,
-                lineHeight: 20,
-                color: "#4b5563",
-              }}
-            >
+            <Text style={{ fontSize: 14, lineHeight: 20, color: "#4b5563" }}>
               {product.description}
             </Text>
           </View>
         </View>
+      </ScrollView>
 
-        {/* Add to Cart Actions */}
-        <View
+      {/* Add to Cart Actions */}
+      <View
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 10,
+          right: 10,
+          padding: 20,
+          borderTopColor: "#d1d5db",
+          borderTopWidth: 1,
+          flexDirection: "row",
+          gap: 20,
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <TouchableOpacity
+          onPress={handleAddToCart}
           style={{
-            position: "absolute",
-            bottom: 0,
-            left: 10,
-            right: 10,
-            padding: 20,
-            borderTopColor: "#d1d5db",
-            borderTopWidth: 1,
-            display: "flex",
-            flexDirection: "row",
-            gap: 20,
-            alignItems: "center",
-            justifyContent: "space-between",
+            backgroundColor: "#000",
+            paddingVertical: 15,
+            borderRadius: 50,
+            flex: 1,
           }}
         >
-          <TouchableOpacity
-            onPress={handleAddToCart}
+          <View
             style={{
-              backgroundColor: "#000000",
-              paddingVertical: 15,
-              borderRadius: 50,
-              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 10,
             }}
           >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 10,
-                flex: 1,
-              }}
-            >
-              <Ionicons name="bag-outline" size={18} color={"#fff"} />
-              <Text
+            <Ionicons name="bag-outline" size={18} color={"#fff"} />
+            <Text style={{ fontSize: 17, color: "#fff", fontWeight: "600" }}>
+              Add to Cart
+            </Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => router.push("/(tabs)/cart")}>
+          <View style={{ width: 28, height: 28 }}>
+            <Ionicons name="cart-outline" size={28} color={COLORS.primary} />
+            {itemCount > 0 && (
+              <View
                 style={{
-                  fontSize: 17,
-                  color: "#fff",
-                  fontWeight: "600",
+                  position: "absolute",
+                  right: -7,
+                  top: -7,
+                  minWidth: 20,
+                  height: 20,
+                  borderRadius: 50,
+                  backgroundColor: "#000",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  paddingHorizontal: 2,
                 }}
               >
-                Add to Cart
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push("/(tabs)/cart")}>
-            <View style={{ width: 28, height: 28 }}>
-              <Ionicons name="cart-outline" size={28} color={COLORS.primary} />
-              {itemCount > 0 && (
-                <View
-                  style={{
-                    position: "absolute",
-                    right: -7,
-                    top: -7,
-                    minWidth: 20,
-                    height: 20,
-                    borderRadius: 50,
-                    backgroundColor: "#000000",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    paddingHorizontal: 2,
-                  }}
+                <Text
+                  style={{ color: "white", fontSize: 10, fontWeight: "bold" }}
                 >
-                  <Text
-                    style={{ color: "white", fontSize: 10, fontWeight: "bold" }}
-                  >
-                    {itemCount}
-                  </Text>
-                </View>
-              )}
-            </View>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </View>
+                  {itemCount}
+                </Text>
+              </View>
+            )}
+          </View>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }
