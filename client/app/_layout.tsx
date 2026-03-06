@@ -1,6 +1,20 @@
 import { Stack } from "expo-router";
 
 import "@/global.css";
+import { WishListProvider } from "@/context/WishlistContext";
+import { CartProvider } from "@/context/CartContext";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Toast from "react-native-toast-message";
+
 export default function RootLayout() {
-  return <Stack />;
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <CartProvider>
+        <WishListProvider>
+          <Stack screenOptions={{ headerShown: false }} />
+          <Toast />
+        </WishListProvider>
+      </CartProvider>
+    </GestureHandlerRootView>
+  );
 }

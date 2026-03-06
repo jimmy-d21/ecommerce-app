@@ -1,17 +1,37 @@
 import { Tabs } from "expo-router";
 import { Feather, Ionicons } from "@expo/vector-icons";
 
-export default function _layout() {
+export default function Layout() {
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#000",
+        tabBarInactiveTintColor: "#CDCDE0",
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: "#fff",
+          borderTopWidth: 1,
+          borderColor: "#F0F0F0",
+          height: 60,
+          paddingBottom: 8,
+          paddingTop: 8,
+        },
+        tabBarItemStyle: {
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "home" : "home-outline"}
-              color={color}
               size={26}
+              color={color}
             />
           ),
         }}
@@ -19,12 +39,8 @@ export default function _layout() {
       <Tabs.Screen
         name="cart"
         options={{
-          tabBarIcon: ({ color, focused }) => (
-            <Feather
-              name={focused ? "shopping-cart" : "shopping-cart"}
-              color={color}
-              size={26}
-            />
+          tabBarIcon: ({ color }) => (
+            <Feather name="shopping-cart" size={26} color={color} />
           ),
         }}
       />
@@ -34,8 +50,8 @@ export default function _layout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "heart" : "heart-outline"}
-              color={color}
               size={26}
+              color={color}
             />
           ),
         }}
@@ -46,8 +62,8 @@ export default function _layout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "person" : "person-outline"}
-              color={color}
               size={26}
+              color={color}
             />
           ),
         }}
