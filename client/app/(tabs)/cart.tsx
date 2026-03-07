@@ -29,11 +29,13 @@ export default function Cart() {
           >
             Your cart is empty
           </Text>
-          <Text
-            style={{ fontSize: 14, color: COLORS.primary, fontWeight: "800" }}
-          >
-            Start Shopping
-          </Text>
+          <TouchableOpacity onPress={() => router.push("/")}>
+            <Text
+              style={{ fontSize: 14, color: COLORS.primary, fontWeight: "800" }}
+            >
+              Start Shopping
+            </Text>
+          </TouchableOpacity>
         </View>
       ) : (
         <>
