@@ -58,7 +58,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const addToCart = async (product: Product, size: string) => {};
 
-  const removeFromCart = async (productId: string, size: string) => {};
+  const removeFromCart = async (productId: string, size: string) => {
+    setCartItems((prev) =>
+      prev.filter((item) => item.id !== productId && item.size !== size),
+    );
+  };
 
   const updateQuantity = async (
     productId: string,

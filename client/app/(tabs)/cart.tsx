@@ -13,7 +13,7 @@ export default function Cart() {
   const router = useRouter();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#F9FAFB" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#F3F4F6" }}>
       <Header title="My Cart" showBack />
 
       {cartItems.length === 0 ? (
@@ -29,11 +29,13 @@ export default function Cart() {
           >
             Your cart is empty
           </Text>
-          <Text
-            style={{ fontSize: 14, color: COLORS.primary, fontWeight: "800" }}
-          >
-            Start Shopping
-          </Text>
+          <TouchableOpacity onPress={() => router.push("/")}>
+            <Text
+              style={{ fontSize: 14, color: COLORS.primary, fontWeight: "800" }}
+            >
+              Start Shopping
+            </Text>
+          </TouchableOpacity>
         </View>
       ) : (
         <>

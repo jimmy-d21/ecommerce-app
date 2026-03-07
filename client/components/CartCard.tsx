@@ -1,7 +1,7 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { CartItemProps } from "@/constants/types";
-import { AntDesign, Entypo } from "@expo/vector-icons";
+import { AntDesign, EvilIcons } from "@expo/vector-icons";
 import { COLORS } from "@/constants";
 import { useCart } from "@/context/CartContext";
 import Toast from "react-native-toast-message";
@@ -66,7 +66,7 @@ export default function CartCard({ item }: CartItemProps) {
             </Text>
           </View>
           <TouchableOpacity onPress={handleRemove}>
-            <Entypo name="circle-with-cross" size={21} color={COLORS.error} />
+            <EvilIcons name="trash" size={24} color={COLORS.accent} />
           </TouchableOpacity>
         </View>
 

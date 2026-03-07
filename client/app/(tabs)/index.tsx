@@ -56,7 +56,10 @@ export default function Home() {
   }, [activeBannerIndex]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: "#FFFFFF" }}
+      edges={["top"]}
+    >
       <Header title="Forever" showMenu showCart showLogo />
 
       <ScrollView

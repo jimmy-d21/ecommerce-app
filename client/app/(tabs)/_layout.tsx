@@ -1,7 +1,10 @@
 import { Tabs } from "expo-router";
 import { Feather, Ionicons } from "@expo/vector-icons";
+import { useCart } from "@/context/CartContext";
+import { View } from "react-native";
 
 export default function Layout() {
+  const { cartItems } = useCart();
   return (
     <Tabs
       screenOptions={{
@@ -40,7 +43,27 @@ export default function Layout() {
         name="cart"
         options={{
           tabBarIcon: ({ color }) => (
-            <Feather name="shopping-cart" size={26} color={color} />
+            <View style={{ position: "relative" }}>
+              <Feather name="shopping-cart" size={26} color={color} />
+              {cartItems.length > 0 && (
+                <View
+                  style={{
+                    position: "absolute",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: 15,
+                    height: 15,
+                    borderRadius: 50,
+                    backgroundColor: "#DC2626",
+                    top: -8,
+                    right: -10,
+                  }}
+                >
+                  <Ionicons name="ellipse" size={6} color={"#fff"} />
+                </View>
+              )}
+            </View>
           ),
         }}
       />
