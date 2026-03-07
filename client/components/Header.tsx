@@ -17,7 +17,7 @@ export default function Header({
   const router = useRouter();
   const { itemCount } = useCart();
   return (
-    <View className="flex-row items-center justify-between px-4 py-3 bg-white">
+    <View className="flex-row items-center justify-between px-4 py-4 bg-white">
       {/* Left Side */}
       <View className="flex-row items-center flex-1">
         {showBack && (
