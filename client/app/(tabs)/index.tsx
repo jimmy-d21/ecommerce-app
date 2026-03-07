@@ -5,7 +5,7 @@ import ProductCard from "@/components/ProductCard";
 import { CATEGORIES } from "@/constants";
 import { Product } from "@/constants/types";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Dimensions,
   Image,
@@ -26,6 +26,8 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const bannerScrollRef = useRef<ScrollView>(null);
+
   const categories = [{ id: "all", name: "All", icon: "grid" }, ...CATEGORIES];
 
   const fetchProducts = async () => {
@@ -37,6 +39,22 @@ export default function Home() {
     fetchProducts();
   }, []);
 
+  // Auto-scroll banners every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const nextIndex =
+        activeBannerIndex === BANNERS.length - 1 ? 0 : activeBannerIndex + 1;
+      setActiveBannerIndex(nextIndex);
+
+      bannerScrollRef.current?.scrollTo({
+        x: nextIndex * (width - 32),
+        animated: true,
+      });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [activeBannerIndex]);
+
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["top"]}>
       <Header title="Forever" showMenu showCart showLogo />
@@ -47,6 +65,7 @@ export default function Home() {
       >
         {/* Banner Slider */}
         <ScrollView
+          ref={bannerScrollRef}
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
@@ -59,8 +78,8 @@ export default function Home() {
               setActiveBannerIndex(slide);
             }
           }}
+          scrollEventThrottle={16}
         >
-          {/* Show all banners stacked */}
           {BANNERS.map((banner) => (
             <View
               key={banner.id}
@@ -132,6 +151,7 @@ export default function Home() {
             </View>
           ))}
         </ScrollView>
+
         {/* Pagination Dots */}
         <View
           style={{
@@ -222,7 +242,7 @@ export default function Home() {
           )}
         </View>
 
-        {/* News Letter */}
+        {/* Newsletter */}
         <View
           style={{
             marginTop: 40,
@@ -234,7 +254,6 @@ export default function Home() {
             justifyContent: "center",
           }}
         >
-          {/* Headline */}
           <Text
             style={{
               fontSize: 24,
@@ -245,8 +264,6 @@ export default function Home() {
           >
             Join the Revolution
           </Text>
-
-          {/* Subtext */}
           <Text
             style={{
               fontSize: 14,
@@ -257,8 +274,6 @@ export default function Home() {
           >
             Subscribe to our newsletter and get 10% off your first purchase.
           </Text>
-
-          {/* Button */}
           <TouchableOpacity
             style={{
               backgroundColor: "#000",

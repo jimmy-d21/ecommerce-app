@@ -4,6 +4,7 @@ import { CartItemProps } from "@/constants/types";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { COLORS } from "@/constants";
 import { useCart } from "@/context/CartContext";
+import Toast from "react-native-toast-message";
 
 export default function CartCard({ item }: CartItemProps) {
   const [quantity, setQuantity] = useState(item.quantity);
@@ -23,15 +24,23 @@ export default function CartCard({ item }: CartItemProps) {
     updateQuantity(item.id, newQty, item.size);
   };
 
+  const handleRemove = () => {
+    removeFromCart(item.id, item.size);
+    Toast.show({
+      type: "success",
+      text1: "Item removed from cart",
+      text2: `${item.product.name} was successfully removed.`,
+    });
+  };
+
   return (
     <View
       style={{
         flexDirection: "row",
         gap: 10,
         padding: 10,
-        borderRadius: 8,
+        borderRadius: 10,
         backgroundColor: "#fff",
-        marginTop: 15,
       }}
     >
       {/* Cart Image */}
@@ -56,7 +65,7 @@ export default function CartCard({ item }: CartItemProps) {
               Size: {item.size}
             </Text>
           </View>
-          <TouchableOpacity onPress={() => removeFromCart(item.id, item.size)}>
+          <TouchableOpacity onPress={handleRemove}>
             <Entypo name="circle-with-cross" size={21} color={COLORS.error} />
           </TouchableOpacity>
         </View>

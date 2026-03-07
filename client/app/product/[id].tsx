@@ -357,6 +357,7 @@ export default function ProductDetails() {
           gap: 20,
           alignItems: "center",
           justifyContent: "space-between",
+          backgroundColor: "#fff",
         }}
       >
         <TouchableOpacity
