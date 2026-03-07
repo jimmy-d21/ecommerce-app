@@ -13,7 +13,7 @@ export default function Cart() {
   const router = useRouter();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#F9FAFB" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#F3F4F6" }}>
       <Header title="My Cart" showBack />
 
       {cartItems.length === 0 ? (
