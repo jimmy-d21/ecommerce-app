@@ -154,7 +154,7 @@ export default function Cart() {
                 paddingVertical: 16,
               }}
             >
-              <Text style={{ color: "#fff", fontSize: 16, fontWeight: "700" }}>
+              <Text onPress={()=> router.push("/checkout")} style={{ color: "#fff", fontSize: 16, fontWeight: "700" }}>
                 Proceed to Checkout
               </Text>
             </TouchableOpacity>
