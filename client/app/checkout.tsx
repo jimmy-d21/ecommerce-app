@@ -227,8 +227,117 @@ export default function Checkout() {
           </View>
         </ScrollView>
 
-        <View>
-          <Text>Bottom</Text>
+        <View
+          style={{
+            backgroundColor: "#fff",
+            padding: 20,
+            flexDirection: "column",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 19,
+              fontWeight: "800",
+              color: COLORS.primary,
+              marginBottom: 15,
+            }}
+          >
+            Order Summary
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: 5,
+            }}
+          >
+            <Text style={{ color: COLORS.secondary, fontSize: 15 }}>
+              Subtotal
+            </Text>
+            <Text
+              style={{ color: COLORS.primary, fontSize: 16, fontWeight: "800" }}
+            >
+              $132.00
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: 5,
+            }}
+          >
+            <Text style={{ color: COLORS.secondary, fontSize: 15 }}>
+              Shipping
+            </Text>
+            <Text
+              style={{ color: COLORS.primary, fontSize: 16, fontWeight: "800" }}
+            >
+              $2.00
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: 5,
+            }}
+          >
+            <Text style={{ color: COLORS.secondary, fontSize: 15 }}>Tax</Text>
+            <Text
+              style={{ color: COLORS.primary, fontSize: 16, fontWeight: "800" }}
+            >
+              $0.00
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: 5,
+            }}
+          >
+            <Text
+              style={{
+                color: COLORS.primary,
+                fontSize: 20,
+                fontWeight: "800",
+                marginTop: 10,
+              }}
+            >
+              Total
+            </Text>
+            <Text
+              style={{
+                color: COLORS.primary,
+                fontSize: 20,
+                fontWeight: "800",
+                marginTop: 10,
+              }}
+            >
+              $134.00
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              paddingVertical: 10,
+              backgroundColor: COLORS.primary,
+              borderRadius: 10,
+              marginTop: 10,
+            }}
+            onPress={() => router.push("/")}
+          >
+            <Text style={{ color: "#fff", fontWeight: "600", fontSize: 16 }}>
+              Place Order
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
