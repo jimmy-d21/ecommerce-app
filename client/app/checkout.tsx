@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useCart } from "@/context/CartContext";
 import { useRouter } from "expo-router";
@@ -327,16 +327,20 @@ export default function Checkout() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              paddingVertical: 10,
+              paddingVertical: 15,
               backgroundColor: COLORS.primary,
               borderRadius: 10,
               marginTop: 10,
             }}
             onPress={() => router.push("/")}
           >
-            <Text style={{ color: "#fff", fontWeight: "600", fontSize: 16 }}>
-              Place Order
-            </Text>
+            {!loading ? (
+              <Text style={{ color: "#fff", fontWeight: "800", fontSize: 16 }}>
+                Place Order
+              </Text>
+            ) : (
+              <ActivityIndicator color={"#fff"} />
+            )}
           </TouchableOpacity>
         </View>
       </View>

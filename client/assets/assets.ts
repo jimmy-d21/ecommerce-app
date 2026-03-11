@@ -1319,7 +1319,7 @@ export const dummyOrders = [
     ],
     paymentMethod: "stripe",
     paymentStatus: "paid",
-    orderStatus: "placed",
+    orderStatus: "processing",
     subtotal: 88,
     shippingCost: 2,
     tax: 0,

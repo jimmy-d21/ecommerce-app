@@ -12,7 +12,7 @@ export default function Profile() {
   const router = useRouter();
 
   const handleLogout = async () => {
-    router.replace("/auth/signup");
+    router.replace("/");
   };
 
   return (
