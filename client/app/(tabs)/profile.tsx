@@ -91,7 +91,7 @@ export default function Profile() {
                 paddingHorizontal: 40,
                 borderRadius: 25,
               }}
-              onPress={() => router.push("/auth/login")}
+              onPress={() => router.push("/")}
             >
               <Text style={{ color: "#fff", fontSize: 16, fontWeight: "600" }}>
                 Login / Sign Up
