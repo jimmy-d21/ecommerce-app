@@ -78,7 +78,7 @@ export default function Checkout() {
                 >
                   {selectedAddress?.type}
                 </Text>
-                <TouchableOpacity onPress={() => router.push("/address")}>
+                <TouchableOpacity onPress={() => router.push("/addresses")}>
                   <Text style={{ color: COLORS.accent, fontWeight: "600" }}>
                     Change
                   </Text>
